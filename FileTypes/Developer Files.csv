@@ -1,0 +1,16 @@
+.c,C/C++ Source Code File
+.class,Java Class File
+.cpp,C++ Source Code File
+.cs,Visual C# Source Code File
+.dtd,Document Type Definition File
+.fla,Adobe Flash Animation
+.h,C/C++/Objective-C Header File
+.java,Java Source Code File
+.lua,Lua Source File
+.m,Objective-C Implementation File
+.pl,Perl Script
+.py,Python Script
+.sh,Bash Shell Script
+.sln,Visual Studio Solution File
+.vcxproj,Visual C++ Project
+.xcodeproj,Xcode Project
