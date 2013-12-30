@@ -6,24 +6,25 @@ namespace FileCrawler
 {
     public class CrawlerDB
     {
-        public const string DB_CONN_STRING = "data source=SUBODH;initial catalog=DownloadCrawler;Integrated security=true";
+        public const string DB_CONN_STRING = "data source=SUBODH;initial catalog=FileCrawler;Integrated security=true";
 
-        public void SaveFileURLToDB(String hostName, string fileType, string fileUrl)
+        public void SaveFileURLToDB(String tableName, String hostName, string fileType, string fileDescription,string fileUrl)
         {
             using (SqlConnection con = new SqlConnection(DB_CONN_STRING))
             {
                 con.Open();
                 try
                 {
-                    using (SqlCommand command = new SqlCommand("INSERT INTO [DownloadCrawler].[dbo].[CrawledFiles] VALUES(@host, @file, @url, @credt,@crename,@upddt,@updnm)", con))
+                    using (SqlCommand command = new SqlCommand("INSERT INTO [FileCrawler].[dbo].[" + tableName + "] VALUES(@hostName,@fileType,@fileDescription,@url,@createdDt,@createdByName,@updatedDt,@updatedByName)", con))
                     {
-                        command.Parameters.Add(new SqlParameter("host", hostName));
-                        command.Parameters.Add(new SqlParameter("file", fileType));
+                        command.Parameters.Add(new SqlParameter("hostName", hostName));
+                        command.Parameters.Add(new SqlParameter("fileType", fileType));
+                        command.Parameters.Add(new SqlParameter("fileDescription", fileDescription));
                         command.Parameters.Add(new SqlParameter("url", fileUrl));
-                        command.Parameters.Add(new SqlParameter("credt", DateTime.Now.ToString()));
-                        command.Parameters.Add(new SqlParameter("crename", "Subodh"));
-                        command.Parameters.Add(new SqlParameter("upddt", DBNull.Value));
-                        command.Parameters.Add(new SqlParameter("updnm", DBNull.Value));
+                        command.Parameters.Add(new SqlParameter("createdDt", DateTime.Now.ToString()));
+                        command.Parameters.Add(new SqlParameter("createdByName", "Subodh"));
+                        command.Parameters.Add(new SqlParameter("updatedDt", DBNull.Value));
+                        command.Parameters.Add(new SqlParameter("updatedByName", DBNull.Value));
                         command.ExecuteNonQuery();
                     }
                 }

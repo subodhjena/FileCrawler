@@ -14,12 +14,22 @@ namespace FileCrawler
 {
     class Program
     {
-        static String webURL = @"http://www.songspk.name/";
-        static String filterTxt = ".zip";
+        #region "Fields and Object Declaration"
+
+        static String webURL = @"http://ebooks.allfree-stuff.com/";
+        static String fileTypePath = @"C:\Users\Subodhlc\Documents\Visual Studio 2012\Projects\FileCrawler\FileCrawler\FileTypes";
         static CrawlerDB crawalerDatabase = new CrawlerDB();
-   
+        static FileTypes fileTyp = new FileTypes();
+        static List<String> filters;
+
+        #endregion
+
+
         static void Main(string[] args)
         {
+            //Will Get the FileTypes to Download
+            filters = fileTyp.GetFileTypesToDownlaod(fileTypePath);
+
             //Will use app.config for confguration
             PoliteWebCrawler crawler = new PoliteWebCrawler();
 
@@ -48,7 +58,7 @@ namespace FileCrawler
                 SaveURLFail(crawledPage.Uri.AbsoluteUri.ToString());
             else
                 SaveURLSuccess(crawledPage.Uri.AbsoluteUri.ToString());
-                            
+
             if (string.IsNullOrEmpty(crawledPage.RawContent))
                 SaveURLNoContent(crawledPage.Uri.AbsoluteUri.ToString());
         }
@@ -69,42 +79,58 @@ namespace FileCrawler
         private static void SaveURLSuccess(string p)
         {
             Console.WriteLine("Shubh :Crawl of page succeeded {0}", p);
-            if (p.Contains(filterTxt) && Uri.IsWellFormedUriString(p, UriKind.RelativeOrAbsolute))
-            {
-                crawalerDatabase.SaveFileURLToDB(webURL, filterTxt, p);
-            }
+            WriteToDB(p);
         }
         private static void SaveURLFail(string p)
         {
             Console.WriteLine("Shubh :Crawl of page Failed {0}", p);
-            if (p.Contains(filterTxt) && Uri.IsWellFormedUriString(p, UriKind.RelativeOrAbsolute))
-            {
-                crawalerDatabase.SaveFileURLToDB(webURL, filterTxt, p);
-            }
+            WriteToDB(p);
         }
         private static void SavePageLinksCrawlDisallowed(string p)
         {
             Console.WriteLine("Shubh :Page Links Craw lDisallowed {0}", p);
-            if (p.Contains(filterTxt) && Uri.IsWellFormedUriString(p, UriKind.RelativeOrAbsolute))
-            {
-                crawalerDatabase.SaveFileURLToDB(webURL, filterTxt, p);
-            }
+            WriteToDB(p);
         }
         private static void SaveURLNoContent(string p)
         {
             Console.WriteLine("Shubh :Crawl of page had no content {0}", p);
-            if (p.Contains(filterTxt) && Uri.IsWellFormedUriString(p, UriKind.RelativeOrAbsolute))
-            {
-                crawalerDatabase.SaveFileURLToDB(webURL, filterTxt, p);
-            }
+            WriteToDB(p);
         }
         private static void SavePageCrawlDisallowed(string p)
         {
             Console.WriteLine("Shubh :Crawl of page Not allowed {0}", p);
-            if (p.Contains(filterTxt) && Uri.IsWellFormedUriString(p, UriKind.RelativeOrAbsolute))
+            WriteToDB(p);
+        }
+
+        //DB Writes
+        private static void WriteToDB(string p)
+        {
+            try
             {
-                crawalerDatabase.SaveFileURLToDB(webURL, filterTxt, p);
+
+                foreach (String filter in filters)
+                {
+                    String[] splitFilters = filter.Split(',');
+                    String filterFileType = splitFilters[0];
+                    String filterFileDescription = splitFilters[1];
+                    String filterFileTable = splitFilters[2];
+
+                    if (p.Trim().EndsWith(filterFileType) && Uri.IsWellFormedUriString(p, UriKind.RelativeOrAbsolute))
+                    {
+                        crawalerDatabase.SaveFileURLToDB(filterFileTable, webURL, filterFileType, filterFileDescription, p);
+                        Console.WriteLine("Wrote :" + p + " to :" + filterFileTable);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine("**************************************");
+                System.Console.WriteLine("WRITING: ERROR DESCRIPTION");
+                System.Console.WriteLine("  Error Message:" + ex.Message);
+                System.Console.WriteLine("  Stack Trace  :" + ex.StackTrace);
+                System.Console.WriteLine("**************************************");
             }
         }
+
     }
 }

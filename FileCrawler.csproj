@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrawlerDB.cs" />
+    <Compile Include="FileTypes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -82,6 +83,31 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="FileTypes\3DImageFiles.csv" />
+    <None Include="FileTypes\AudioFiles.csv" />
+    <None Include="FileTypes\BackupFiles.csv" />
+    <None Include="FileTypes\CADFiles.csv" />
+    <None Include="FileTypes\CompressedFiles.csv" />
+    <None Include="FileTypes\DataFiles.csv" />
+    <None Include="FileTypes\DatabaseFiles.csv" />
+    <None Include="FileTypes\DeveloperFiles.csv" />
+    <None Include="FileTypes\DiskImageFiles.csv" />
+    <None Include="FileTypes\EncodedFiles.csv" />
+    <None Include="FileTypes\ExecutableFiles.csv" />
+    <None Include="FileTypes\FontFiles.csv" />
+    <None Include="FileTypes\GameFiles.csv" />
+    <None Include="FileTypes\GISFiles.csv" />
+    <None Include="FileTypes\MiscFiles.csv" />
+    <None Include="FileTypes\PageLayoutFiles.csv" />
+    <None Include="FileTypes\PluginFiles.csv" />
+    <None Include="FileTypes\RasterImageFiles.csv" />
+    <None Include="FileTypes\SettingsFiles.csv" />
+    <None Include="FileTypes\SpreadsheetFiles.csv" />
+    <None Include="FileTypes\SystemFiles.csv" />
+    <None Include="FileTypes\TextFiles.csv" />
+    <None Include="FileTypes\VectorImageFiles.csv" />
+    <None Include="FileTypes\VideoFiles.csv" />
+    <None Include="FileTypes\WebFiles.csv" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
