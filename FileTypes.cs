@@ -22,6 +22,49 @@ namespace FileCrawler
             return fileList;
         }
 
+        public String GetConnectionString(String p)
+        {
+            int counter = 0;
+            string line;
+            String returnVal = "Please Update the app data file.";
+
+            // Read the file and display it line by line.
+            reader = new System.IO.StreamReader(p);
+            while ((line = reader.ReadLine()) != null)
+            {
+                String[] connectionString = line.Trim().Split(',');
+                if (connectionString[0].ToString() == "ConnectionString")
+                {
+                    returnVal = connectionString[1];
+                }
+                counter++;
+            }
+
+            reader.Close();
+            return returnVal;
+        }
+        public String GetHostToCrawlString(String p)
+        {
+            int counter = 0;
+            string line;
+            String returnVal = "Please Update the app data file.";
+
+            // Read the file and display it line by line.
+            reader = new System.IO.StreamReader(p);
+            while ((line = reader.ReadLine()) != null)
+            {
+                String[] connectionString = line.Trim().Split(',');
+                if (connectionString[0].ToString() == "WebsiteName")
+                {
+                    returnVal = connectionString[1];
+                }
+                counter++;
+            }
+
+            reader.Close();
+            return returnVal;
+        }
+
         private void ReadCSVToOne(String filePath)
         {
             int counter = 0;

@@ -1,0 +1,2 @@
+ConnectionString,data source=localhost;initial catalog=FileCrawler;Integrated security=true
+WebsiteName,http://www.google.com/

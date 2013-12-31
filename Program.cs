@@ -9,24 +9,29 @@ using System.Net;
 using System.IO;
 using System.Data.SqlClient;
 using System.Data;
+using System.Configuration;
 
 namespace FileCrawler
 {
     class Program
     {
-        static String webURL = @"http://ebooks.allfree-stuff.com/";
-
         #region "Fields and Object Declaration"
+        static String connectionString;
+        static String webURL;
+        static string appDataPath = @"C:\Users\sjena\Documents\GitHub\FileCrawler\AppData.csv";
+        static String fileTypePath = @"C:\Users\sjena\Documents\GitHub\FileCrawler\FileTypes";
 
-        static String fileTypePath = @"C:\Users\Subodhlc\Documents\Visual Studio 2012\Projects\FileCrawler\FileCrawler\FileTypes";
-        static CrawlerDB crawalerDatabase = new CrawlerDB();
+        static CrawlerDB crawalerDatabase = new CrawlerDB(connectionString);
         static FileTypes fileTyp = new FileTypes();
         static List<String> filters;
-
         #endregion
 
         static void Main(string[] args)
         {
+            //Read Configuration from File
+            connectionString = fileTyp.GetConnectionString(appDataPath);
+            webURL = fileTyp.GetHostToCrawlString(appDataPath);
+
             //Will Get the FileTypes to Download
             filters = fileTyp.GetFileTypesToDownlaod(fileTypePath);
             //Will use app.config for confguration

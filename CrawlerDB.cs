@@ -2,13 +2,20 @@ using System;
 using System.Data.SqlClient;
 using System.Data;
 using System.Globalization;
+using System.Configuration;
+
 namespace FileCrawler
 {
     public class CrawlerDB
     {
-        public const string DB_CONN_STRING = "data source=SUBODH;initial catalog=FileCrawler;Integrated security=true";
+        public String DB_CONN_STRING = null;
 
-        #region "Inserts new url to database|SaveFileURLToDB(String tableName, String hostName, string fileType, string fileDescription,string fileUrl)"
+        public CrawlerDB(String connection)
+        {
+            DB_CONN_STRING = connection;
+        }
+
+        #region "Inserts new url to database | SaveFileURLToDB"
         /// <summary>
         /// Method to Insert a new URL to the specified table to Database
         /// </summary>
