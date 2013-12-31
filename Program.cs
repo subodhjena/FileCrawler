@@ -14,9 +14,10 @@ namespace FileCrawler
 {
     class Program
     {
+        static String webURL = @"http://ebooks.allfree-stuff.com/";
+
         #region "Fields and Object Declaration"
 
-        static String webURL = @"http://ebooks.allfree-stuff.com/";
         static String fileTypePath = @"C:\Users\Subodhlc\Documents\Visual Studio 2012\Projects\FileCrawler\FileCrawler\FileTypes";
         static CrawlerDB crawalerDatabase = new CrawlerDB();
         static FileTypes fileTyp = new FileTypes();
@@ -24,19 +25,19 @@ namespace FileCrawler
 
         #endregion
 
-
         static void Main(string[] args)
         {
             //Will Get the FileTypes to Download
             filters = fileTyp.GetFileTypesToDownlaod(fileTypePath);
-
             //Will use app.config for confguration
             PoliteWebCrawler crawler = new PoliteWebCrawler();
 
+            #region "Crawler Events"
             crawler.PageCrawlStartingAsync += crawler_ProcessPageCrawlStarting;
             crawler.PageCrawlCompletedAsync += crawler_ProcessPageCrawlCompleted;
             crawler.PageCrawlDisallowedAsync += crawler_PageCrawlDisallowed;
             crawler.PageLinksCrawlDisallowedAsync += crawler_PageLinksCrawlDisallowed;
+            #endregion
 
             CrawlResult result = crawler.Crawl(new Uri(webURL));
             if (result.ErrorOccurred)
@@ -45,6 +46,7 @@ namespace FileCrawler
                 Console.WriteLine("Crawl of {0} completed without error.", result.RootUri.AbsoluteUri);
         }
 
+        #region "Crawler Event Delegates"
         static void crawler_ProcessPageCrawlStarting(object sender, PageCrawlStartingArgs e)
         {
             PageToCrawl pageToCrawl = e.PageToCrawl;
@@ -74,6 +76,7 @@ namespace FileCrawler
             Console.WriteLine("Did not crawl page {0} due to {1}", pageToCrawl.Uri.AbsoluteUri, e.DisallowedReason);
             SavePageCrawlDisallowed(pageToCrawl.Uri.AbsoluteUri);
         }
+        #endregion
 
         //Saving the file links
         private static void SaveURLSuccess(string p)
@@ -102,7 +105,7 @@ namespace FileCrawler
             WriteToDB(p);
         }
 
-        //DB Writes
+        #region "Inserts new url to database"
         private static void WriteToDB(string p)
         {
             try
@@ -131,6 +134,7 @@ namespace FileCrawler
                 System.Console.WriteLine("**************************************");
             }
         }
+        #endregion
 
     }
 }

@@ -8,6 +8,15 @@ namespace FileCrawler
     {
         public const string DB_CONN_STRING = "data source=SUBODH;initial catalog=FileCrawler;Integrated security=true";
 
+        #region "Inserts new url to database|SaveFileURLToDB(String tableName, String hostName, string fileType, string fileDescription,string fileUrl)"
+        /// <summary>
+        /// Method to Insert a new URL to the specified table to Database
+        /// </summary>
+        /// <param name="tableName">The Table name to which the URL will be Inserted</param>
+        /// <param name="hostName">The url host</param>
+        /// <param name="fileType">the type of file to be Inserted</param>
+        /// <param name="fileDescription">File Description</param>
+        /// <param name="fileUrl">The URL of the file</param>
         public void SaveFileURLToDB(String tableName, String hostName, string fileType, string fileDescription,string fileUrl)
         {
             using (SqlConnection con = new SqlConnection(DB_CONN_STRING))
@@ -22,7 +31,7 @@ namespace FileCrawler
                         command.Parameters.Add(new SqlParameter("fileDescription", fileDescription));
                         command.Parameters.Add(new SqlParameter("url", fileUrl));
                         command.Parameters.Add(new SqlParameter("createdDt", DateTime.Now.ToString()));
-                        command.Parameters.Add(new SqlParameter("createdByName", "Subodh"));
+                        command.Parameters.Add(new SqlParameter("createdByName",Environment.MachineName + "/" + Environment.UserName));
                         command.Parameters.Add(new SqlParameter("updatedDt", DBNull.Value));
                         command.Parameters.Add(new SqlParameter("updatedByName", DBNull.Value));
                         command.ExecuteNonQuery();
@@ -39,6 +48,7 @@ namespace FileCrawler
                 }
             }
         }
+        #endregion
 
     }
 }
